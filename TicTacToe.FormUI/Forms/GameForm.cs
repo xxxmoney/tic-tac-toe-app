@@ -7,27 +7,134 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TicTacToe.Core.Exceptions;
 using TicTacToe.Core.Services;
+using TicTacToe.FormUI.UserControls;
 
 namespace TicTacToe.FormUI.Forms
 {
     public partial class GameForm : Form
     {
+        private readonly List<Piece> pieces;
         private readonly IGameManager gameManager;
+        private readonly GameEndedForm gameEndedForm;
 
-        public GameForm(IGameManager gameManager)
+        public GameForm(
+            IGameManager gameManager, 
+            GameEndedForm gameEndedForm)
         {
+            this.pieces = new List<Piece>();
             this.gameManager = gameManager;
+            this.gameEndedForm = gameEndedForm;
 
             InitializeComponent();
 
             this.gameManager.OnTurn += GameManager_OnTurn;
             this.gameManager.OnPlayerChange += GameManager_OnPlayerChange;
+            this.gameEndedForm.FormClosing += GameEndedForm_FormClosing;
+        }
+
+        private void GameEndedForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+
+            this.gameEndedForm.Hide();
+            this.Close();
+        }
+
+        private void SetGameBoard()
+        {
+            // Clears previous board.
+            this.ClearPieces();
+
+            int size = this.gameManager.Game.BoardSize;
+            int percentPerOne = 100 / size;
+
+            // Sets board row and col styles.
+            this.board.ColumnStyles.Clear();
+            this.board.RowStyles.Clear();
+            this.board.ColumnCount = size;
+            this.board.RowCount = size;
+            for (int i = 0; i < size; i++)
+            {
+                this.board.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, percentPerOne));
+                this.board.RowStyles.Add(new RowStyle(SizeType.Percent, percentPerOne));
+            }
+            // Adds pieces to board.
+            for (int x = 0; x < size; x++)
+                for (int y = 0; y < size; y++)
+                {
+                    var piece = new Piece(new Core.Models.Position(x, y), this.gameManager);
+                    piece.Click += Piece_Click;
+
+                    this.pieces.Add(piece);
+                    this.board.Controls.Add(piece);
+
+                    // Sets row, col and span for piece.
+                    piece.Anchor = AnchorStyles.None;
+                    piece.Dock = DockStyle.Fill;
+                    piece.AutoSize = true;
+                    this.board.SetRow(piece, x);
+                    this.board.SetColumn(piece, y);
+                    this.board.SetRowSpan(piece, 1);
+                    this.board.SetColumnSpan(piece, 1);
+                }            
+        }
+
+        private void Piece_Click(object sender, EventArgs e)
+        {
+            var piece = sender as Piece;
+            try
+            {
+                var turn = this.gameManager.MakeTurn(piece.Position);
+                piece.SetLabelValue();
+            }
+            catch (PieceMarkedException ex)
+            {
+                this.gameEndedForm.Show();
+            }
+            catch (Exception ex)
+            {
+                // TODO: Add form.
+                throw new NotImplementedException();
+            }
+        }
+
+        private void SetGame()
+        {
+            this.SetGameBoard();
+            this.gameManager.Start();
+        }
+        private void ResetGame()
+        {
+            // Resets game.            
+            this.gameManager.Reset();
+        }
+        private void ClearPieces()
+        {
+            // Unsubscribes from event handler and removes pieces.
+            foreach (var piece in pieces)
+            {
+                piece.Click -= Piece_Click;
+                this.board.Controls.Remove(piece);                
+            }
+            this.pieces.Clear();
+        }
+
+        public void CustomShow()
+        {
+            this.SetGame();
+            this.Show();
+            this.Update();
         }
 
         private void GameManager_OnTurn(object sender, Core.Models.TurnEventArgs e)
         {
-            throw new NotImplementedException();
+            if (e.GameState == Core.Enums.GameStateEnum.SomeoneWon || 
+                e.GameState == Core.Enums.GameStateEnum.Even)
+            {
+                this.gameEndedForm.CustomShow();
+            }
         }
 
         private void GameManager_OnPlayerChange(object sender, Core.Models.PlayerChangeEventArgs e)
@@ -36,16 +143,9 @@ namespace TicTacToe.FormUI.Forms
             this.labelCurrentPlayerValue.Text = e.Player.Name;
         }
 
-        private void GameForm_Shown(object sender, EventArgs e)
-        {
-            // Starts game.
-            this.gameManager.Start(); 
-        }
-
         private void GameForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Resets game.            
-            this.gameManager.Reset();
+            this.ResetGame();
 
             // Cancels form closing.
             e.Cancel = true;

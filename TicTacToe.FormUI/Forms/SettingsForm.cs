@@ -109,7 +109,7 @@ namespace TicTacToe.FormUI.Forms
             this.ConfigureGameManager();
 
             this.Hide();
-            this.gameForm.Show();
+            this.gameForm.CustomShow();
         }
 
         private void numericPlayerCount_ValueChanged(object sender, EventArgs e)

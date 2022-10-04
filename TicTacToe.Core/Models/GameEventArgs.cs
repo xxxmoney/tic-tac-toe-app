@@ -15,7 +15,7 @@ namespace TicTacToe.Core.Models
         public TurnEventArgs(TurnInfo turnInfo, GameStateEnum gameState)
         {
             this.TurnInfo = turnInfo;
-            this.GameState = GameState;
+            this.GameState = gameState;
         }
 
     }

@@ -57,68 +57,59 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="tableLayoutPanel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="tableLayoutPanel.ColumnCount" type="System.Int32, mscorlib">
+  <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="labelCurrentPlayer.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="buttonOk.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>None</value>
-  </data>
-  <data name="labelCurrentPlayer.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="labelCurrentPlayer.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 11.25pt</value>
+  <data name="buttonOk.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 27</value>
   </data>
-  <data name="labelCurrentPlayer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>69, 9</value>
+  <data name="buttonOk.Text" xml:space="preserve">
+    <value>OK</value>
   </data>
-  <data name="labelCurrentPlayer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>105, 20</value>
+  <data name="labelWon.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="labelCurrentPlayer.Text" xml:space="preserve">
-    <value>Current player:</value>
-  </data>
-  <data name="labelCurrentPlayerValue.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="labelCurrentPlayerValue.AutoSize" type="System.Boolean, mscorlib">
+  <data name="labelWon.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="labelCurrentPlayerValue.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 11.25pt</value>
+  <data name="labelWon.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 15.75pt</value>
   </data>
-  <data name="labelCurrentPlayerValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>301, 9</value>
+  <data name="labelWon.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 58</value>
   </data>
-  <data name="labelCurrentPlayerValue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 20</value>
+  <data name="labelWon.Text" xml:space="preserve">
+    <value>Won: </value>
   </data>
-  <data name="labelCurrentPlayerValue.Text" xml:space="preserve">
-    <value>CURRENT_PLAYER</value>
+  <data name="labelWon.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
   </data>
-  <data name="board.ColumnCount" type="System.Int32, mscorlib">
-    <value>2</value>
+  <data name="labelWonValue.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="board.RowCount" type="System.Int32, mscorlib">
-    <value>2</value>
+  <data name="labelWonValue.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="board.Size" type="System.Drawing.Size, System.Drawing">
-    <value>481, 340</value>
+  <data name="labelWonValue.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12pt</value>
   </data>
-  <data name="tableLayoutPanel.RowCount" type="System.Int32, mscorlib">
-    <value>2</value>
+  <data name="labelWonValue.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="tableLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>487, 384</value>
+  <data name="labelWonValue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 58</value>
   </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>511, 408</value>
+  <data name="labelWonValue.Text" xml:space="preserve">
+    <value>PLAYER_NAME</value>
+  </data>
+  <data name="labelWonValue.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>

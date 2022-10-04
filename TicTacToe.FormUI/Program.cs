@@ -37,6 +37,7 @@ namespace TicTacToe.FormUI
                     services.AddSingleton<MainForm>();
                     services.AddSingleton<GameForm>();
                     services.AddSingleton<SettingsForm>();
+                    services.AddSingleton<GameEndedForm>();
 
                     // Registers language switcher.
                     services.AddSingleton<ILanguageSwitcher, LanguageSwitcher>();

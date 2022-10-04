@@ -158,7 +158,7 @@ namespace TicTacToe.Core.Services
             this.logger.Information("Turn finished.");
             if (this.Game.State == Enums.GameStateEnum.Running)
             {
-                // Moves to next player - if called first time then moves to first player.
+                // Moves to next player.
                 this.MoveToNextPlayer();
             }
             else
