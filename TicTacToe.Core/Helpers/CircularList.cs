@@ -17,7 +17,7 @@ namespace TicTacToe.Core.Helpers
         /// Array of items to be circulated.
         /// </summary>
         private readonly T[] items;
-        private int startAt;
+        private readonly int startAt;
         /// <summary>
         /// Index of the current item.
         /// </summary>

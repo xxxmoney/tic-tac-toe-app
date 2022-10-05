@@ -66,10 +66,7 @@ namespace TicTacToe.Core.Models
             var piece = this.Board[position];
 
             // Checks whether piece if free.
-            if (piece.State == PieceStateEnum.Unmarked)
-            {
-                piece.Mark(player);
-            }            
+            piece.Mark(player);        
 
             return new TurnInfo(piece, player);
         }

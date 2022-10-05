@@ -46,9 +46,10 @@ namespace TicTacToe.Core.Ioc
         /// <returns></returns>
         public static IServiceCollection Install(IServiceCollection services)
         {
-            services.AddTransient<IGameManager, GameManager>();
+            services.AddSingleton<IGameManager, GameManager>();
             services.AddSingleton<IBoardInitBuilder, BoardBuilder>();
             services.AddSingleton<IGameInitBuilder, GameBuilder>();
+            services.AddSingleton<IGameJudge, GameJudge>();
 
             // Installs configuration.
             var configuration = BuildConfiguration();

@@ -34,9 +34,10 @@ namespace TicTacToe.FormUI
                     Core.Ioc.DependencyInstaller.Install(services);
 
                     // Registers forms.
-                    services.AddTransient<MainForm>();
-                    services.AddTransient<GameForm>();
-                    services.AddTransient<SettingsForm>();
+                    services.AddSingleton<MainForm>();
+                    services.AddSingleton<GameForm>();
+                    services.AddSingleton<SettingsForm>();
+                    services.AddSingleton<GameEndedForm>();
 
                     // Registers language switcher.
                     services.AddSingleton<ILanguageSwitcher, LanguageSwitcher>();
