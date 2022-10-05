@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,15 +19,18 @@ namespace TicTacToe.FormUI.Forms
     public partial class SettingsForm : Form
     {
         private readonly IGameManager gameManager;
+        private readonly ILanguageSwitcher languageSwitcher;
         private readonly GameForm gameForm;
-        private readonly BindingList<Models.Player> players;
-        private bool loaded = false;
+        private readonly CustomBindingList<Models.Player> players;
+        private readonly bool loaded = false;
 
         public SettingsForm(
             IGameManager gameManager,
+            ILanguageSwitcher languageSwitcher,
             GameForm gameForm)
         {
             this.gameManager = gameManager;
+            this.languageSwitcher = languageSwitcher;
             this.gameForm = gameForm;
 
             InitializeComponent();
@@ -34,7 +38,7 @@ namespace TicTacToe.FormUI.Forms
             this.SetControlsLimits();
 
             // Initializes players list.
-            this.players = new BindingList<Models.Player>();
+            this.players = new CustomBindingList<Models.Player>();
             this.SetPlayersListBasedOnNumeric();
 
             // Sets grid view's data source to players.
@@ -42,13 +46,18 @@ namespace TicTacToe.FormUI.Forms
 
             this.loaded = true;
 
+            // Sets handler for game form's closing.
             gameForm.FormClosing += GameForm_FormClosing;
-        }
 
-        private void GameForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            // Shows this form when game form is closing.
-            this.Show();
+            // Adds handlers for validation.
+            this.numericGridSize.ValueChanged += OnChangeValidate;
+            this.numericWinCount.ValueChanged += OnChangeValidate;
+            this.numericPlayerCount.ValueChanged += OnChangeValidate;
+            // Sets handling for players.
+            this.players.ListChanged += OnChangeValidate;
+            this.players.AddingNew += Players_AddingNew;
+            this.players.BeforeRemove += Players_BeforeRemove;
+            this.languageSwitcher = languageSwitcher;
         }
 
         /// <summary>
@@ -64,6 +73,25 @@ namespace TicTacToe.FormUI.Forms
 
             this.numericPlayerCount.Minimum = Core.Constants.MinimumPlayerCount;
             this.numericPlayerCount.Maximum = Core.Constants.MaximumPlayerCount;
+        }
+        
+        /// <summary>
+        /// Validates controls's values.
+        /// </summary>
+        /// <returns></returns>
+        private bool ValidateControls()
+        {
+            bool playersCheck = this.players.All(player => !string.IsNullOrWhiteSpace(player.Name));
+            bool winCountCheck = this.numericWinCount.Value <= this.numericGridSize.Value;
+
+            return playersCheck && winCountCheck;
+        }
+        /// <summary>
+        /// Sets button's enabled by validation.
+        /// </summary>
+        private void SetButtonStartEnabled()
+        {
+            this.buttonStart.Enabled = this.ValidateControls();
         }
 
         private void SetPlayersListBasedOnNumeric()
@@ -98,6 +126,47 @@ namespace TicTacToe.FormUI.Forms
             this.gameManager.Configure(configuration);
         }
 
+        private void RefreshLanguage()
+        {
+            // Refrehes language.
+            this.ApplyResourceToControl();
+
+            this.SetButtonStartEnabled();
+        }
+
+
+        private void Players_AddingNew(object sender, AddingNewEventArgs e)
+        {
+            // Adds handler to new player.
+            if (e.NewObject is Models.Player player)
+            {
+                player.PropertyChanged += Player_PropertyChanged;
+            }
+        }
+
+        private void Players_BeforeRemove(Models.Player player)
+        {
+            // Removes handler from removed player.
+            player.PropertyChanged -= Player_PropertyChanged;
+        }
+
+        private void Player_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            // Validates on change.
+            this.SetButtonStartEnabled();
+        }
+
+        private void OnChangeValidate(object sender, EventArgs e)
+        {
+            this.SetButtonStartEnabled();   
+        }
+
+        private void GameForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Shows this form when game form is closing.
+            this.Show();
+        }
+
         private void SettingsForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             // Exits application.
@@ -116,6 +185,20 @@ namespace TicTacToe.FormUI.Forms
         {
             if (this.loaded)
                 this.SetPlayersListBasedOnNumeric();
+        }
+
+        private void englishToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.languageSwitcher.SetCurrentLanguage(Enums.LanguageEnum.EN);
+
+            this.RefreshLanguage();
+        }
+
+        private void czechToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.languageSwitcher.SetCurrentLanguage(Enums.LanguageEnum.CZ);
+
+            this.RefreshLanguage();
         }
     }
 }

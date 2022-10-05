@@ -27,6 +27,7 @@ namespace TicTacToe.FormUI.UserControls
 
             this.labelValue.Anchor = AnchorStyles.None;
             this.labelValue.Dock = DockStyle.Fill;
+            this.Dock = DockStyle.Fill;
 
             this.SetLabelValue();
         }

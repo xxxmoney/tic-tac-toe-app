@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TicTacToe.Core.Services;
+using TicTacToe.FormUI.Helpers;
 
 namespace TicTacToe.FormUI.Forms
 {
@@ -33,6 +34,9 @@ namespace TicTacToe.FormUI.Forms
 
         public void CustomShow()
         {
+            // Refreshes language.
+            this.ApplyResourceToControl();
+
             this.Show();
             this.SetWonValue();
         }

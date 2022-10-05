@@ -12,20 +12,35 @@ namespace TicTacToe.FormUI.Helpers
     /// </summary>
     public interface ILanguageSwitcher
     {
-        LanguageEnum GetCurrentLanguage();
+        /// <summary>
+        /// Sets current language by language enum.
+        /// </summary>
+        /// <param name="language"></param>
         void SetCurrentLanguage(LanguageEnum language);
     }
 
     public class LanguageSwitcher : ILanguageSwitcher
     {
-        public LanguageEnum GetCurrentLanguage()
+        private static void SetLanguage(string languageCode)
         {
-            throw new NotImplementedException();
+            var culture = new System.Globalization.CultureInfo(languageCode);
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
         }
 
         public void SetCurrentLanguage(LanguageEnum language)
         {
-            throw new NotImplementedException();
+            switch (language)
+            {
+                case LanguageEnum.EN:
+                    SetLanguage("en");
+                    break;
+                case LanguageEnum.CZ:
+                    SetLanguage("cs");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

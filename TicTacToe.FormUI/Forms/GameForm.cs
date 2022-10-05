@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TicTacToe.Core.Exceptions;
 using TicTacToe.Core.Services;
+using TicTacToe.FormUI.Helpers;
 using TicTacToe.FormUI.UserControls;
 
 namespace TicTacToe.FormUI.Forms
@@ -29,6 +30,9 @@ namespace TicTacToe.FormUI.Forms
 
             InitializeComponent();
 
+            // Restricts shrinking.
+            this.LockResising(FormExtension.ResizeLockEnum.ShrinkLock);
+
             this.gameManager.OnTurn += GameManager_OnTurn;
             this.gameManager.OnPlayerChange += GameManager_OnPlayerChange;
             this.gameEndedForm.FormClosing += GameEndedForm_FormClosing;
@@ -47,6 +51,11 @@ namespace TicTacToe.FormUI.Forms
             // Clears previous board.
             this.ClearPieces();
 
+            // Recalculates table layout panel size - bug fix.
+            int marginX = 40;
+            int marginY = 60;
+            this.tableLayoutPanel.Size = new Size(this.Size.Width - marginX, this.Size.Height - marginY);
+            
             int size = this.gameManager.Game.BoardSize;
             int percentPerOne = 100 / size;
 
@@ -67,17 +76,14 @@ namespace TicTacToe.FormUI.Forms
                     var piece = new Piece(new Core.Models.Position(x, y), this.gameManager);
                     piece.Click += Piece_Click;
 
-                    this.pieces.Add(piece);
-                    this.board.Controls.Add(piece);
-
                     // Sets row, col and span for piece.
-                    piece.Anchor = AnchorStyles.None;
-                    piece.Dock = DockStyle.Fill;
-                    piece.AutoSize = true;
                     this.board.SetRow(piece, x);
                     this.board.SetColumn(piece, y);
                     this.board.SetRowSpan(piece, 1);
                     this.board.SetColumnSpan(piece, 1);
+
+                    this.pieces.Add(piece);
+                    this.board.Controls.Add(piece);
                 }            
         }
 
@@ -123,6 +129,9 @@ namespace TicTacToe.FormUI.Forms
 
         public void CustomShow()
         {
+            // Refreshes language.
+            this.ApplyResourceToControl();
+
             this.SetGame();
             this.Show();
             this.Update();
