@@ -39,6 +39,8 @@ namespace TicTacToe.FormUI.Forms
 
             this.Show();
             this.SetWonValue();
+
+            this.tableLayoutPanel.Size = this.Size;
         }
 
         private void buttonOk_Click(object sender, EventArgs e)
